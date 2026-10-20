@@ -2,7 +2,6 @@ import pickle
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import streamlit as st
 from sklearn.preprocessing import LabelEncoder
 
@@ -42,12 +41,13 @@ exercise_angina = st.selectbox("Exercise Induced Angina", EXERCISE_ANGINA)
 slope_st = st.selectbox("Slope of the Peak Exercise ST Segment", SLOPE_ST)
 
 if st.button("Predict"):
-    features = pd.DataFrame({
-        "Sex": [sex_enc.transform([sex])[0]],
-        "ChestPain": [cp_enc.transform([chest_pain])[0]],
-        "ExerciseAngina": [exang_enc.transform([exercise_angina])[0]],
-        "SlopeST": [slope_enc.transform([slope_st])[0]],
-    })
+    # Order must match the training columns: Sex, ChestPain, ExerciseAngina, SlopeST
+    features = np.array([[
+        sex_enc.transform([sex])[0],
+        cp_enc.transform([chest_pain])[0],
+        exang_enc.transform([exercise_angina])[0],
+        slope_enc.transform([slope_st])[0],
+    ]])
     prediction = model.predict(features)[0]
     if prediction == 1:
         st.error("Prediction: HEART DISEASE")
