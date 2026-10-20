@@ -32,7 +32,6 @@ def load_model():
 model = load_model()
 
 st.title("Heart Disease Prediction System")
-st.write("Machine Learning Fundamentals (AIC354) - COMSATS University Islamabad, Lahore Campus")
 st.caption("Learning project only. Not for real medical decisions.")
 
 sex = st.selectbox("Sex", SEX)
